@@ -1,7 +1,6 @@
-import React from 'react';
-// import ReactDOM from 'react-dom';
+import React, { Component } from 'react';
 
-class Board extends React.Component {
+class Board extends Component {
     renderSquare(i) {
       return (
         <Square
@@ -34,13 +33,12 @@ class Board extends React.Component {
     }
   }
   
-  class Game extends React.Component {
+  class Game extends Component {
     constructor(props) {
       super(props);
+
       this.state = {
-        history: [{
-          squares: Array(9).fill(null),
-        }],
+        history: [{squares: Array(9).fill(null)}],
         stepNumber: 0,
         xIsNext: true,
       };
@@ -55,9 +53,7 @@ class Board extends React.Component {
       }
       squares[i] = this.state.xIsNext ? 'X' : 'O';
       this.setState({
-        history: history.concat([{
-          squares: squares
-        }]),
+        history: history.concat([{squares: squares}]),
         stepNumber: history.length,
         xIsNext: !this.state.xIsNext,
       });
