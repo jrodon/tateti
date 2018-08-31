@@ -4,7 +4,7 @@ function Casillero(props) {
   return (
     /* Las propiedades 'value' y 'onClickSquare' son asignadas por la clase 'Board',
     específicamente por el método 'renderSquare'. */
-    <button className="square" onClick={props.onClickSquare} >
+    <button id="boardBox" className="square" onClick={props.onClickSquare} >
       {props.value}
     </button>
   );
@@ -27,14 +27,14 @@ class Board extends React.Component {
         value={this.props.squares[i]}
         /* Asigna la propiedad/función 'onClickBoard' a la propiedad 'onClickSquare'
         de la función 'Square', convirtiéndola en una función. */
-        onClickSquare={() => this.props.onClickBoard(i)} 
+        onClickSquare={() => this.props.onClickBoard(i)}
       />
     );
   }
 
   render() {
     return (
-      <div>
+      <div id="board">
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
@@ -72,7 +72,7 @@ class Game extends React.Component {
     this.setState({
       stepNumber: step,
       xIsNext: (step % 2) === 0,
-    })
+    });
   }
 
   /* Este método contiene las instrucciones de que sucede cuando se cliquea 
@@ -133,10 +133,25 @@ class Game extends React.Component {
         "," + calcCoords(casillaNro[move]).column + ')' : 'Go to game start';
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{label}</button>
-        </li>
+          <button className="btn" id="movesButton"
+            onClick={() => this.jumpTo(move)} >{label}</button>
+        </li >
       );
     });
+
+    document.addEventListener("click", function (event) {
+      var header = event.target.parentNode.parentNode;
+      var element = header.getElementsByTagName("button");
+      for (let i = 0; i < element.length; i++) {
+        var current = document.getElementsByClassName("active");
+        if (current.length > 0) {
+          current[0].className = current[0].className.replace(" active", "")
+        };
+      }
+      if (event.target.id === "movesButton") {
+        event.target.className += " active"
+      }
+    })
 
     let status;
     if (winner) {
@@ -158,7 +173,8 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <ol id="movesList">{moves} </ol>
+
         </div>
         {/* Added to try */}
         <div className="random">
