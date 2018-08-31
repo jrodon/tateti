@@ -28,28 +28,31 @@ class Board extends React.Component {
         /* Asigna la propiedad/función 'onClickBoard' a la propiedad 'onClickSquare'
         de la función 'Square', convirtiéndola en una función. */
         onClickSquare={() => this.props.onClickBoard(i)}
+        // Added an unique id key
+        key={i}
       />
     );
+  }
+
+  createBoard() {
+    let grid = []
+    //  Outer loop to create parent (board-row).
+    for (let i = 0; i < 3; i++) {
+      let children = []
+      // Inner loop to create children (boxes).
+      for (let j = 0; j < 3; j++) {
+        children.push(this.renderSquare(j + i * 3))
+      }
+      // Create the parent and add the children.
+      grid.push(<div className="board-row" key={i}>{children}</div>)
+    }
+    return grid
   }
 
   render() {
     return (
       <div id="board">
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {this.createBoard()}
       </div>
     );
   }
@@ -180,7 +183,6 @@ class Game extends React.Component {
         <div className="game-info">
           <div>{status}</div>
           <ol id="movesList">{moves} </ol>
-
         </div>
         {/* Added to try */}
         <div className="random">
@@ -226,4 +228,5 @@ function calcCoords(position) {
     { row: rows[position], column: columns[position] }
   )
 }
+
 export default Game
