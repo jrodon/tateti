@@ -139,15 +139,21 @@ class Game extends React.Component {
       );
     });
 
+    // The following makes that every click runs the included code.
     document.addEventListener("click", function (event) {
+      /* Get the grandparent node of the target of the click.
+      (need to add a safeguard for this) */
       var header = event.target.parentNode.parentNode;
+      // Get a list of all the buttons in that granddaddy node.
       var element = header.getElementsByTagName("button");
+      // Check if those buttons are "active" and deactivate them if so.
       for (let i = 0; i < element.length; i++) {
         var current = document.getElementsByClassName("active");
         if (current.length > 0) {
           current[0].className = current[0].className.replace(" active", "")
         };
       }
+      // If the target of the click is one of the "movesButton"s then activate it.
       if (event.target.id === "movesButton") {
         event.target.className += " active"
       }
